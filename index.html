@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Album Introduction</title>
+</head>
+  <style>
+    body {
+            background-color: #000;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            padding: 20px;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        #terminal {
+            max-width: 800px;
+            margin: 20px auto;
+        }
+
+        .line {
+            margin: 0;
+            padding: 5px 0;
+            min-height: 24px;
+            position: relative;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 20px;
+            background-color: #00ff00;
+            animation: blink 1s infinite;
+            vertical-align: middle;
+            margin-left: 2px;
+        }
+
+        .prompt {
+            color: #00ff00;
+            margin-right: 10px;
+        }
+
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        .command {
+            color: #00ff00;
+        }
+
+        .output {
+            color: #ffffff;
+        }
+
+        .typing {
+            display: inline-block;
+        }
+  </style>
+  <script>
+    const lines = [
+            { type: 'command', text: 'loading new_album.info' },
+            { type: 'output', text: '正在載入專輯資訊...' },
+            { type: 'output', text: '===============================' },
+            { type: 'output', text: '大家好! 我哋係Just a broken machine' },
+            { type: 'output', text: '我哋新album即將推出喇' },
+            { type: 'output', text: '發行日期: 2025年5月12日' },
+            { type: 'output', text: '******************' },
+            { type: 'output', text: '想同大家介紹下新歌' },
+            { type: 'output', text: 'Track 01: [Song 1]' },
+            { type: 'output', text: '- 呢首歌講述住咗一個關於...' },
+            { type: 'output', text: 'Track 02: [Song 2]' },
+            { type: 'output', text: '- 靈感來自於...' },
+            { type: 'output', text: '===============================' },
+            { type: 'command', text: '_' }
+        ];
+
+        const terminal = document.getElementById('terminal');
+        let currentLine = 0;
+        let currentChar = 0;
+
+        function createNewLine() {
+            const line = document.createElement('div');
+            line.className = 'line';
+            
+            if (lines[currentLine].type === 'command') {
+                line.innerHTML = `<span class="prompt">$</span><span class="command typing"></span>`;
+            } else {
+                line.innerHTML = `<span class="output typing"></span>`;
+            }
+            
+            const cursor = document.createElement('span');
+            cursor.className = 'cursor';
+            line.appendChild(cursor);
+            
+            terminal.appendChild(line);
+            return line.querySelector('.typing');
+        }
+
+        function typeText() {
+            if (currentLine >= lines.length) return;
+
+            const currentTyping = document.querySelector('.cursor');
+            if (currentTyping) currentTyping.remove();
+
+            const typingElement = createNewLine();
+            const text = lines[currentLine].text;
+            
+            function typeCharacter() {
+                if (currentChar < text.length) {
+                    typingElement.textContent += text[currentChar];
+                    currentChar++;
+                    setTimeout(typeCharacter, Math.random() * 50 + 50); // 打字速度隨機化
+                } else {
+                    currentChar = 0;
+                    currentLine++;
+                    setTimeout(typeText, 500); // 每行之間嘅延遲
+                }
+            }
+
+            typeCharacter();
+        }
+
+        // 開始打字動畫
+        window.onload = typeText;
+  </script>
+<body>
+    <div id="terminal"></div>
+
+    
+</body>
+</html>
