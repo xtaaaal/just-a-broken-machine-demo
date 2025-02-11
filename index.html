@@ -60,7 +60,11 @@
             display: inline-block;
         }
   </style>
-  <script>
+  
+<body>
+    <div id="terminal"></div>
+
+    <script>
     const lines = [
             { type: 'command', text: 'loading new_album.info' },
             { type: 'output', text: '正在載入專輯資訊...' },
@@ -127,9 +131,5 @@
         // 開始打字動畫
         window.onload = typeText;
   </script>
-<body>
-    <div id="terminal"></div>
-
-    
 </body>
 </html>
